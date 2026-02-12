@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة روابط الأهداف للمشرفين</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .card-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+        }
+        .tab-active {
+            border-bottom: 3px solid #2563eb;
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="bg-blue-800 text-white p-6 rounded-t-2xl shadow-lg mb-1">
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">نظام إدارة روابط الأهداف للمشرفين</h1>
+            <p class="text-blue-100 opacity-90">حصري للمشرفين - تنظيم وسهولة وصول</p>
+        </header>
+
+        <!-- Search & Stats Bar -->
+        <div class="bg-white p-4 shadow-md flex flex-col md:flex-row gap-4 items-center justify-between border-b">
+            <div class="relative w-full md:w-96">
+                <input type="text" id="searchInput" placeholder="ابحث باسم المندوب أو الرقم أو المشرف..." 
+                       class="w-full pr-10 pl-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                <span class="absolute right-3 top-2.5 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="flex gap-4 text-sm font-bold">
+                <div class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full" id="totalCount">إجمالي المندوبين: 0</div>
+                <div class="bg-green-50 text-green-700 px-4 py-2 rounded-full" id="areaCount">المناطق: 0</div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div id="mainContainer" class="mt-6 space-y-8">
+            <!-- Data will be injected here via JS -->
+        </div>
+
+        <footer class="mt-12 text-center text-gray-500 text-sm pb-8 border-t pt-4">
+            نظام الإدارة الرقمي للمشرفين © 2024
+        </footer>
+    </div>
+
+    <script>
+        const rawData = [
+            {
+                region: "المنطقة 01",
+                supervisor: "رامي فيصل مصلح الصمادي",
+                mainLink: "https://drive.google.com/open?id=1wzqCJbBv0Mc-uZMwPnhGTnYK8Ii1d3JE&usp=drive_fs",
+                agents: [
+                    { name: "محمود علي زكي قيصر", id: "1001", link: "https://drive.google.com/open?id=1uqJo9xb6xqUaUGNfHDHYISCPNNa87PjB&usp=drive_fs" },
+                    { name: "صفوت علي زكي قيصر", id: "1047", link: "https://drive.google.com/open?id=1iefkmJzXGf5rKrIzqC5i8XXHzriwRdIY&usp=drive_fs" },
+                    { name: "أحمد عبد الرحمن بديع رزق", id: "1010", link: "https://drive.google.com/open?id=1xKbj9ZKY0IOyuJ-hCG5LDgetc37pmWjL&usp=drive_fs" },
+                    { name: "محمد عادل فالح النجار", id: "1024", link: "https://drive.google.com/open?id=1IDg-6FDqTOhxRp9kX3XteegndYKBH9C2&usp=drive_fs" },
+                    { name: "بكر عادل عزات لافي", id: "1066", link: "https://drive.google.com/open?id=1DvVf9f_bDwAQVzfSYbZo9Gp7jt6qzPUD&usp=drive_fs" },
+                    { name: "مصطفى حبيب عبد الرؤوف عطاء", id: "1008", link: "https://drive.google.com/open?id=1ncE2P6_i7Q5rCf-BbwFZvu4G0R5OCbG4&usp=drive_fs" },
+                    { name: "علاء الدين طلال محمد عوده", id: "1045", link: "https://drive.google.com/open?id=1Ctav8a--lZ-11LUJhPas11YAfYPTH1CI&usp=drive_fs" },
+                    { name: "ماجد فؤاد حسن حمد", id: "1038", link: "https://drive.google.com/open?id=1kn4zIOUxw8HWFD3l7-k09JsE8BcSovNc&usp=drive_fs" },
+                    { name: "علاء فايز محمود المعالي", id: "1011", link: "https://drive.google.com/open?id=1LHYCgy-7ZJnim__YAQoerpnSmrdzY0h1&usp=drive_fs" },
+                    { name: "عدنان حسين محمد شباب", id: "1034", link: "https://drive.google.com/open?id=1w56qvL9JKNcCkE3iSBJj7sByxPDswy-Z&usp=drive_fs" },
+                    { name: "فراس يحيى صالح عيد", id: "1070", link: "https://drive.google.com/open?id=1OSXHkGeBP2KnS7At1g1cGeVfrf9hNaQF&usp=drive_fs", note: "مشرف علكة" }
+                ]
+            },
+            {
+                region: "المنطقة 02",
+                supervisor: "حمزة درويش",
+                mainLink: "https://drive.google.com/open?id=1DjbCd7JILvq0gE5lmRjILlSN3yljVaLT&usp=drive_fs",
+                agents: [
+                    { name: "حسين احمد موسى كتكت", id: "1027", link: "https://drive.google.com/open?id=14XKIumVhU_uC3IjenWE_4jmxzil0XPJn&usp=drive_fs" },
+                    { name: "عمار محمد عبد السلام الصفدي", id: "1043", link: "https://drive.google.com/open?id=13zgNUjdEAN_BnoOn00L1IBW7yUUTUSkp&usp=drive_fs" },
+                    { name: "صامد احمد ماجد القواسمه", id: "1062", link: "https://drive.google.com/open?id=16bWn4i9d5kNv2BMzpbpFvBTcIUrgYyge&usp=drive_fs" },
+                    { name: "محمد طاهر محمد ناصر", id: "1063", link: "https://drive.google.com/open?id=1Fuzzpt8AY2cGNUpC6HexCkd6LxzqWFGW&usp=drive_fs" },
+                    { name: "عمر محمد موسى الشاعر", id: "1050", link: "https://drive.google.com/open?id=1uJc5tFDMV3f9BRnPcFTJLIxzr_9KCyte&usp=drive_fs" },
+                    { name: "رائد صقر حسين صالحيه", id: "1035", link: "https://drive.google.com/open?id=1fYCHs91VA4TwoYm1ecifBmwuL6awNW3w&usp=drive_fs" },
+                    { name: "فائز جمال حسين دكروك", id: "1073", link: "https://drive.google.com/open?id=1kK8fgFp6BMeWbotmOdiXbfgDwxHhblj0&usp=drive_fs" },
+                    { name: "بكر احمد بكر الأطرش", id: "1055", link: "https://drive.google.com/open?id=1zyZ48KVI4_jGwwsw2kgmFT7cLUeYbZs3&usp=drive_fs" },
+                    { name: "اياد رائد ابو شاشيه", id: "1039", link: "https://drive.google.com/open?id=1JvN0-ziDwFxtyMX5ov4zGSaoH-V7JP6V&usp=drive_fs" },
+                    { name: "شريف محمد عبد الجليل الحراحشه", id: "1046", link: "https://drive.google.com/open?id=14WqO425nleG3ZxX8hcMxndyh1schwOWR&usp=drive_fs" },
+                    { name: "بشار علاوي ابراهيم المحمد", id: "1076", link: "https://drive.google.com/open?id=1iaMU6Y7-ICeagIRn85Cu-jyNb5_GKQoq&usp=drive_fs" }
+                ]
+            },
+            {
+                region: "المنطقة 022",
+                supervisor: "يوسف النجار",
+                mainLink: "https://drive.google.com/open?id=1WLQLgZMj3jcUQU8IlUAesoCKQ1xujFGW&usp=drive_fs",
+                agents: [
+                    { name: "اسامة خليل محمد عكاوي", id: "1014", link: "https://drive.google.com/open?id=11LK9-qX-EhRsnsrb7ml5JQrVQNVCU5X7&usp=drive_fs" },
+                    { name: "نواف امجد نواف العطيوي", id: "1003", link: "https://drive.google.com/open?id=1Wl9H-wPDjwzjp-KN73dX7WJPlu4l7qPY&usp=drive_fs" },
+                    { name: "اياد ناصر حلمي ابو غربية", id: "1006", link: "https://drive.google.com/open?id=1EVWjc_GJgM5u0ToauMfMCMfUbzSCIX69&usp=drive_fs" },
+                    { name: "مؤيد هيثم عبد الكريم الزريقات", id: "1002", link: "https://drive.google.com/open?id=1exhFYMfxADePSAWGkZ1Nq4nzqm5Lz7OC&usp=drive_fs" },
+                    { name: "خالد يسرى صالح الشرباتي", id: "1052", link: "https://drive.google.com/open?id=16beMZXnBfftGm-975ylmRp5W1ZUMZq0x&usp=drive_fs" },
+                    { name: "معتصم فايز صالح الكتوت", id: "1058", link: "https://drive.google.com/open?id=1UyXqdSXd7HHETloZb2lhieF3iNaFom1b&usp=drive_fs" },
+                    { name: "زيد محمد عماد غازي البنا", id: "1013", link: "https://drive.google.com/open?id=1oglP1NemHzoW4hxqT-jL5WrnuC5yYF95&usp=drive_fs" },
+                    { name: "عبد الله محمود عثمان الحمزه", id: "1049", link: "https://drive.google.com/open?id=1P9hq6VWxRsT1SSkxbmIdctQ-Ng3IXOlF&usp=drive_fs" },
+                    { name: "حمزه فوزي نمر حسنين", id: "1059", link: "https://drive.google.com/open?id=1QCGGHktt-rPADq6jWxIol3jPLsBEL1eX&usp=drive_fs" }
+                ]
+            },
+            {
+                region: "المنطقة 03",
+                supervisor: "رواد احمد محمود الغول",
+                mainLink: "https://drive.google.com/open?id=11NLFhtYybDquTW41Xaho9nO4xT5bwe-V&usp=drive_fs",
+                agents: [
+                    { name: "عبد الرحمن عادل لافي", id: "1019", link: "https://drive.google.com/open?id=17IyIQBRVG7qD622xIbwU94rnZsfINmtb&usp=drive_fs" },
+                    { name: "امين كامل عبدالفتاح عبدالرحمن", id: "1054", link: "https://drive.google.com/open?id=1AWj3H9S14jqUtRNza-GJYMCWSBBhxQxd&usp=drive_fs" },
+                    { name: "رامي جمال نظمي سعد", id: "1060", link: "https://drive.google.com/open?id=1XymEXILHALIf6xQ2FN0c7y1P80xIZo39&usp=drive_fs" },
+                    { name: "محمد عبد اللطيف ابو العز", id: "1061", link: "https://drive.google.com/open?id=1-TT_EoBipa328DxFhbEG45VukT1ejs-Q&usp=drive_fs" },
+                    { name: "عبد الرحمن نبيل عبيد الله الرواشده", id: "1022", link: "https://drive.google.com/open?id=1RG8SHPTizIwEC8vFU7kLMBSkgN89ze8Q&usp=drive_fs" },
+                    { name: "ادم خالد حسن ابو نمره", id: "1025", link: "https://drive.google.com/open?id=1iPfxBaxHewMZB9NIBM9d2GyVyTJGHZfp&usp=drive_fs" },
+                    { name: "فارس فضل الرحمن احمد الشايب", id: "1044", link: "https://drive.google.com/open?id=1W4AaspvpWsAlnwidhyokPxYxV7FHt5YF&usp=drive_fs" },
+                    { name: "رامي احمد عبد الله حماد", id: "1012", link: "https://drive.google.com/open?id=1GjOSzMKlczHt-JjsW-cRvlMOr4xOUhmK&usp=drive_fs" },
+                    { name: "عمار مصطفى عوض القيسي", id: "1015", link: "https://drive.google.com/open?id=1Sd43DrwWY1UXdfCyj8exzpiCcVtH0T0F&usp=drive_fs" }
+                ]
+            },
+            {
+                region: "المنطقة 04",
+                supervisor: "محمد نعيم",
+                mainLink: "https://drive.google.com/open?id=18XzxVN7Bwps3wjW_fdTzUdYKTAAaytx9&usp=drive_fs",
+                agents: [
+                    { name: "موسى عمر عبد العزيز المصري", id: "1030", link: "https://drive.google.com/open?id=1euJwcryzf5fNP3QqseZdfphz809SLWVi&usp=drive_fs" },
+                    { name: "عمار احمد حسين ملحم", id: "1009", link: "https://drive.google.com/open?id=1m4rcTtp7Gc4kkSEa52Uw77pjv6BgIzkT&usp=drive_fs" },
+                    { name: "فارس علي سليمان العمارات", id: "1033", link: "https://drive.google.com/open?id=1gxmGmxXBCsmk5tcJT2Cd5blAlLHO9iB9&usp=drive_fs" },
+                    { name: "حسين محمود علي نصار", id: "1023", link: "https://drive.google.com/open?id=1j2bWcK2tqDOEwU5PFdDdn5p_iZzPuNkB&usp=drive_fs" },
+                    { name: "ليث محمد فؤاد الديب", id: "1075", link: "https://drive.google.com/open?id=1hd-4sCK_lwvGfK5t0T_PSEsg8xLAl0_M&usp=drive_fs" },
+                    { name: "محمد سليمان عبد القادر الزواهره", id: "1020", link: "https://drive.google.com/open?id=1w7uRbPGLefQc0DjqeNG_6gVKuA11hC5I&usp=drive_fs" },
+                    { name: "بلال عبد اللطيف محمد الشطناوي", id: "1028", link: "https://drive.google.com/open?id=1_VC2U4DTSL4IThqHVDXTOC_b9t_-6GLE&usp=drive_fs" },
+                    { name: "عبد الله ابراهيم محمود الخطيب", id: "1031", link: "https://drive.google.com/open?id=1udwLND7uWLBpgNGsF2cWNzpGqLHS_jbd&usp=drive_fs" },
+                    { name: "نزيه عبد الكريم جبرين ابو العينين", id: "1040", link: "https://drive.google.com/open?id=1JdBHpuILwtEXi2If7dYG9uxY0NzhimHA&usp=drive_fs" },
+                    { name: "محمد حمدي شكري قنيبي", id: "1018", link: "https://drive.google.com/open?id=175_NytoeRuH0jqKQjBdwPSlaCxEmAZtk&usp=drive_fs" },
+                    { name: "غازي ايمن غازي حميدي", id: "1056", link: "https://drive.google.com/open?id=1Ac2OtFzBwca0Q2uqHriZMpR5-5a8MGQY&usp=drive_fs" },
+                    { name: "ليث محمد قندح العويدي", id: "1026", link: "https://drive.google.com/open?id=1_bYl83udHxMHSrbFOthBnewSu2Y4nJbM&usp=drive_fs" }
+                ]
+            },
+            {
+                region: "المنطقة 05",
+                supervisor: "عبد الكريم صالح محمد الحوراني",
+                mainLink: "https://drive.google.com/open?id=1R1frx7GND0BwKDl5KqrgWVLNRm1EiYnZ&usp=drive_fs",
+                agents: [
+                    { name: "ابراهيم عدنان خليل الدحله", id: "1004", link: "https://drive.google.com/open?id=16musJwda-h2Ry1R-PfCPm3qPetXMN_Ig&usp=drive_fs" },
+                    { name: "غاندي محمد محمود غادي", id: "1016", link: "https://drive.google.com/open?id=1z3hCGiVBdfBMDbMRY0H6W_ZUCcF6xJzy&usp=drive_fs" },
+                    { name: "محمد هارون مصطفى طلافحه", id: "1017", link: "https://drive.google.com/open?id=1UyMKhBMB1e5-FDMI8gDn5x6JXdKs-vy7&usp=drive_fs" },
+                    { name: "احمد طايل محمود العمري", id: "1032", link: "https://drive.google.com/open?id=1XL82a-8x8ZSiBMP-Dpdp8ymfl7SYT0hu&usp=drive_fs" },
+                    { name: "احمد موفق احمد شطناوي", id: "1041", link: "https://drive.google.com/open?id=1bTQqw3NBuCboW4YpJ-RVqK21jDHiKNaP&usp=drive_fs" },
+                    { name: "بكر ايمن عدنان يعقوب", id: "1042", link: "https://drive.google.com/open?id=1rTzeAC6Y94gCc6T3G-hBWgeoAqe73QsK&usp=drive_fs" },
+                    { name: "احمد محمد احمد دبور", id: "1048", link: "https://drive.google.com/open?id=1F6s-02AiK7T10Zsc1g2UuSs4GUlgNhp5&usp=drive_fs" },
+                    { name: "منتصر صالحي ياسين الحاج ابراهيم", id: "1051", link: "https://drive.google.com/open?id=1SYuux93ypkyYsjzMl-VidPY6Xle-CxON&usp=drive_fs" },
+                    { name: "حازم محمد علي الطوالبة", id: "1053", link: "https://drive.google.com/open?id=1smZSXbGPsKN3Q7qNAjHzoZILadhxoDu9&usp=drive_fs" },
+                    { name: "محمد عبد الله ابراهيم الديك", id: "1064", link: "https://drive.google.com/open?id=1hCf2iU7SUloQho1fGSaVFa0Xb1A0vWh-&usp=drive_fs" },
+                    { name: "عمر ايمن عبد الله الزعبي", id: "1072", link: "https://drive.google.com/open?id=1qxvIMxuAHz2OlDQrI4qcikhrD_kKExaT&usp=drive_fs" },
+                    { name: "حسين احمد محمد الجمل", id: "1078", link: "https://drive.google.com/open?id=17NBygEbwmE1JdnKSI_mzBpmMB8qbKDuj&usp=drive_fs" },
+                    { name: "خالد معاوية عقلة عتوم", id: "1079", link: "https://drive.google.com/open?id=1xy7Nl3P-zf_1gUcRGoHjFC-0cFqU943b&usp=drive_fs" }
+                ]
+            }
+        ];
+
+        const mainContainer = document.getElementById('mainContainer');
+        const searchInput = document.getElementById('searchInput');
+        const totalCountEl = document.getElementById('totalCount');
+        const areaCountEl = document.getElementById('areaCount');
+
+        function renderData(filter = "") {
+            mainContainer.innerHTML = "";
+            let totalAgents = 0;
+            let totalAreas = 0;
+
+            rawData.forEach(area => {
+                const filteredAgents = area.agents.filter(agent => 
+                    agent.name.includes(filter) || 
+                    agent.id.includes(filter) || 
+                    area.supervisor.includes(filter) ||
+                    area.region.includes(filter)
+                );
+
+                if (filteredAgents.length > 0 || area.supervisor.includes(filter) || area.region.includes(filter)) {
+                    totalAreas++;
+                    totalAgents += filteredAgents.length;
+
+                    const areaSection = document.createElement('div');
+                    areaSection.className = "bg-white rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg border border-gray-100";
+                    
+                    areaSection.innerHTML = `
+                        <div class="bg-gray-50 p-5 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-800">${area.region}</h2>
+                                <p class="text-blue-600 font-medium flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                    </svg>
+                                    المشرف: ${area.supervisor}
+                                </p>
+                            </div>
+                            <a href="${area.mainLink}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2">
+                                <span>فتح ملف المنطقة</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="p-4 overflow-x-auto">
+                            <table class="w-full text-right border-collapse">
+                                <thead class="text-gray-500 text-sm border-b uppercase">
+                                    <tr>
+                                        <th class="py-3 px-4 font-semibold text-right">رقم المندوب</th>
+                                        <th class="py-3 px-4 font-semibold text-right">اسم المندوب</th>
+                                        <th class="py-3 px-4 font-semibold text-center">الرابط المباشر</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    ${filteredAgents.map(agent => `
+                                        <tr class="hover:bg-blue-50 transition-colors group">
+                                            <td class="py-4 px-4 font-mono text-gray-600">${agent.id}</td>
+                                            <td class="py-4 px-4">
+                                                <div class="font-bold text-gray-800">${agent.name}</div>
+                                                ${agent.note ? `<span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full">${agent.note}</span>` : ''}
+                                            </td>
+                                            <td class="py-4 px-4 text-center">
+                                                <a href="${agent.link}" target="_blank" 
+                                                   class="inline-flex items-center gap-2 text-blue-500 hover:text-blue-700 font-bold transition">
+                                                    <span>عرض الأهداف</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-0 group-hover:opacity-100 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                                    </svg>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    mainContainer.appendChild(areaSection);
+                }
+            });
+
+            totalCountEl.textContent = `إجمالي المندوبين: ${totalAgents}`;
+            areaCountEl.textContent = `المناطق: ${totalAreas}`;
+            
+            if (totalAreas === 0) {
+                mainContainer.innerHTML = `
+                    <div class="text-center py-20 bg-white rounded-xl shadow-sm border border-dashed border-gray-300">
+                        <div class="text-gray-400 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <p class="text-xl text-gray-500">لا توجد نتائج مطابقة لبحثك</p>
+                        <button onclick="searchInput.value=''; renderData('');" class="mt-4 text-blue-600 hover:underline">إعادة ضبط البحث</button>
+                    </div>
+                `;
+            }
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            renderData(e.target.value);
+        });
+
+        // Initial render
+        renderData();
+
+    </script>
+</body>
+</html>
