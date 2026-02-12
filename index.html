@@ -3,60 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام إدارة روابط الأهداف للمشرفين</title>
+    <title>نظام الإدارة الاستراتيجي | لوحة تحكم المشرفين</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+Arabic:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+        }
         body {
-            font-family: 'Noto Sans Arabic', sans-serif;
-            background-color: #f3f4f6;
+            font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
         }
-        .card-gradient {
-            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
         }
-        .tab-active {
-            border-bottom: 3px solid #2563eb;
-            color: #2563eb;
+        .sidebar-gradient {
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
         }
+        .data-row:hover {
+            background-color: #f1f5f9;
+            transform: translateX(-4px);
+        }
+        .transition-custom {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="min-h-screen">
 
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <header class="bg-blue-800 text-white p-6 rounded-t-2xl shadow-lg mb-1">
-            <h1 class="text-2xl md:text-3xl font-bold mb-2">نظام إدارة روابط الأهداف للمشرفين</h1>
-            <p class="text-blue-100 opacity-90">حصري للمشرفين - تنظيم وسهولة وصول</p>
-        </header>
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 px-6 py-3">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold tracking-tight text-slate-800 leading-none">الإدارة المركزية</h2>
+                    <span class="text-xs text-slate-500 font-medium">نظام إدارة روابط الأهداف للمشرفين</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-6">
+                <div class="flex flex-col items-end text-sm">
+                    <span class="text-slate-400">مرحباً بك،</span>
+                    <span class="font-bold text-slate-700">المدير العام</span>
+                </div>
+                <div class="h-10 w-10 rounded-full bg-slate-200 border-2 border-white shadow-sm overflow-hidden">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="avatar">
+                </div>
+            </div>
+        </div>
+    </nav>
 
-        <!-- Search & Stats Bar -->
-        <div class="bg-white p-4 shadow-md flex flex-col md:flex-row gap-4 items-center justify-between border-b">
-            <div class="relative w-full md:w-96">
-                <input type="text" id="searchInput" placeholder="ابحث باسم المندوب أو الرقم أو المشرف..." 
-                       class="w-full pr-10 pl-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                <span class="absolute right-3 top-2.5 text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="lg:col-span-2 relative">
+                <input type="text" id="searchInput" 
+                       placeholder="ابحث عن مندوب، رقم، مشرف، أو منطقة..." 
+                       class="w-full h-14 pr-12 pl-4 rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-blue-500 bg-white text-slate-600 transition-custom outline-none text-lg">
+                <span class="absolute right-4 top-4 text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </span>
             </div>
-            <div class="flex gap-4 text-sm font-bold">
-                <div class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full" id="totalCount">إجمالي المندوبين: 0</div>
-                <div class="bg-green-50 text-green-700 px-4 py-2 rounded-full" id="areaCount">المناطق: 0</div>
+            <div class="flex gap-4">
+                <div class="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                    <div class="p-3 bg-blue-50 rounded-lg text-blue-600" id="totalCountIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-bold uppercase">المندوبين</p>
+                        <h3 class="text-xl font-bold text-slate-800" id="totalCount">0</h3>
+                    </div>
+                </div>
+                <div class="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                    <div class="p-3 bg-emerald-50 rounded-lg text-emerald-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-bold uppercase">المناطق</p>
+                        <h3 class="text-xl font-bold text-slate-800" id="areaCount">0</h3>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Content Area -->
-        <div id="mainContainer" class="mt-6 space-y-8">
-            <!-- Data will be injected here via JS -->
-        </div>
+        <div id="mainContainer" class="grid grid-cols-1 gap-8">
+            </div>
 
-        <footer class="mt-12 text-center text-gray-500 text-sm pb-8 border-t pt-4">
-            نظام الإدارة الرقمي للمشرفين © 2024
+        <footer class="mt-16 text-center border-t border-gray-200 pt-8 pb-12">
+            <p class="text-slate-400 text-sm font-medium">© 2024 نظام الإدارة الاستراتيجي للشركات. جميع الحقوق محفوظة.</p>
         </footer>
-    </div>
+    </main>
 
     <script>
+        // ملاحظة لعبد الله: تم الحفاظ على هيكلية البيانات الأصلية لضمان عمل الروابط بشكل صحيح
         const rawData = [
             {
                 region: "المنطقة 01",
@@ -84,7 +141,7 @@
                     { name: "حسين احمد موسى كتكت", id: "1027", link: "https://drive.google.com/open?id=14XKIumVhU_uC3IjenWE_4jmxzil0XPJn&usp=drive_fs" },
                     { name: "عمار محمد عبد السلام الصفدي", id: "1043", link: "https://drive.google.com/open?id=13zgNUjdEAN_BnoOn00L1IBW7yUUTUSkp&usp=drive_fs" },
                     { name: "صامد احمد ماجد القواسمه", id: "1062", link: "https://drive.google.com/open?id=16bWn4i9d5kNv2BMzpbpFvBTcIUrgYyge&usp=drive_fs" },
-                    { name: "محمد طاهر محمد ناصر", id: "1063", link: "https://drive.google.com/open?id=1Fuzzpt8AY2cGNUpC6HexCkd6LxzqWFGW&usp=drive_fs" },
+                    { name: "محمد طاهر محمد nاصر", id: "1063", link: "https://drive.google.com/open?id=1Fuzzpt8AY2cGNUpC6HexCkd6LxzqWFGW&usp=drive_fs" },
                     { name: "عمر محمد موسى الشاعر", id: "1050", link: "https://drive.google.com/open?id=1uJc5tFDMV3f9BRnPcFTJLIxzr_9KCyte&usp=drive_fs" },
                     { name: "رائد صقر حسين صالحيه", id: "1035", link: "https://drive.google.com/open?id=1fYCHs91VA4TwoYm1ecifBmwuL6awNW3w&usp=drive_fs" },
                     { name: "فائز جمال حسين دكروك", id: "1073", link: "https://drive.google.com/open?id=1kK8fgFp6BMeWbotmOdiXbfgDwxHhblj0&usp=drive_fs" },
@@ -190,51 +247,57 @@
                     totalAgents += filteredAgents.length;
 
                     const areaSection = document.createElement('div');
-                    areaSection.className = "bg-white rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg border border-gray-100";
+                    areaSection.className = "bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden transition-custom";
                     
                     areaSection.innerHTML = `
-                        <div class="bg-gray-50 p-5 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div class="bg-slate-50 p-6 border-b border-gray-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div>
-                                <h2 class="text-xl font-bold text-gray-800">${area.region}</h2>
-                                <p class="text-blue-600 font-medium flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                                    </svg>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded uppercase tracking-wider">${area.region}</span>
+                                </div>
+                                <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
                                     المشرف: ${area.supervisor}
-                                </p>
+                                </h2>
                             </div>
-                            <a href="${area.mainLink}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2">
-                                <span>فتح ملف المنطقة</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <a href="${area.mainLink}" target="_blank" class="group bg-slate-800 hover:bg-blue-600 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition-custom flex items-center gap-2 shadow-md hover:shadow-blue-200">
+                                <span>المجلد الرئيسي</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-[-2px] transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                 </svg>
                             </a>
                         </div>
-                        <div class="p-4 overflow-x-auto">
-                            <table class="w-full text-right border-collapse">
-                                <thead class="text-gray-500 text-sm border-b uppercase">
-                                    <tr>
-                                        <th class="py-3 px-4 font-semibold text-right">رقم المندوب</th>
-                                        <th class="py-3 px-4 font-semibold text-right">اسم المندوب</th>
-                                        <th class="py-3 px-4 font-semibold text-center">الرابط المباشر</th>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-right">
+                                <thead>
+                                    <tr class="text-slate-400 text-xs font-bold uppercase tracking-widest border-b border-gray-50">
+                                        <th class="py-4 px-6">المعرف الرقمي</th>
+                                        <th class="py-4 px-6">اسم المندوب المعتمد</th>
+                                        <th class="py-4 px-6 text-center">الإجراءات الاستراتيجية</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-100">
+                                <tbody class="divide-y divide-gray-50">
                                     ${filteredAgents.map(agent => `
-                                        <tr class="hover:bg-blue-50 transition-colors group">
-                                            <td class="py-4 px-4 font-mono text-gray-600">${agent.id}</td>
-                                            <td class="py-4 px-4">
-                                                <div class="font-bold text-gray-800">${agent.name}</div>
-                                                ${agent.note ? `<span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full">${agent.note}</span>` : ''}
+                                        <tr class="data-row transition-custom group">
+                                            <td class="py-4 px-6">
+                                                <span class="font-mono text-slate-400 bg-slate-50 px-2 py-1 rounded-md text-sm">${agent.id}</span>
                                             </td>
-                                            <td class="py-4 px-4 text-center">
-                                                <a href="${agent.link}" target="_blank" 
-                                                   class="inline-flex items-center gap-2 text-blue-500 hover:text-blue-700 font-bold transition">
-                                                    <span>عرض الأهداف</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-0 group-hover:opacity-100 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                                    </svg>
-                                                </a>
+                                            <td class="py-4 px-6">
+                                                <div class="flex flex-col">
+                                                    <span class="font-bold text-slate-700">${agent.name}</span>
+                                                    ${agent.note ? `<span class="text-[10px] text-amber-600 font-bold">${agent.note}</span>` : ''}
+                                                </div>
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                <div class="flex justify-center">
+                                                    <a href="${agent.link}" target="_blank" 
+                                                       class="flex items-center gap-2 px-4 py-2 rounded-lg text-blue-600 hover:bg-blue-50 font-bold transition-custom border border-transparent hover:border-blue-100">
+                                                       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                        </svg>
+                                                        <span>تحليل الأهداف</span>
+                                                    </a>
+                                                </div>
                                             </td>
                                         </tr>
                                     `).join('')}
@@ -246,19 +309,20 @@
                 }
             });
 
-            totalCountEl.textContent = `إجمالي المندوبين: ${totalAgents}`;
-            areaCountEl.textContent = `المناطق: ${totalAreas}`;
+            totalCountEl.textContent = totalAgents;
+            areaCountEl.textContent = totalAreas;
             
             if (totalAreas === 0) {
                 mainContainer.innerHTML = `
-                    <div class="text-center py-20 bg-white rounded-xl shadow-sm border border-dashed border-gray-300">
-                        <div class="text-gray-400 mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <div class="text-center py-24 bg-white rounded-3xl border border-dashed border-slate-200">
+                        <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
-                        <p class="text-xl text-gray-500">لا توجد نتائج مطابقة لبحثك</p>
-                        <button onclick="searchInput.value=''; renderData('');" class="mt-4 text-blue-600 hover:underline">إعادة ضبط البحث</button>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">لا توجد بيانات مطابقة</h3>
+                        <p class="text-slate-500 mb-6">تأكد من كتابة الاسم أو الرقم بشكل صحيح للمحاولة مرة أخرى.</p>
+                        <button onclick="searchInput.value=''; renderData('');" class="px-6 py-2 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-custom shadow-lg shadow-blue-100">إعادة تعيين البحث</button>
                     </div>
                 `;
             }
@@ -268,9 +332,7 @@
             renderData(e.target.value);
         });
 
-        // Initial render
         renderData();
-
     </script>
 </body>
 </html>
